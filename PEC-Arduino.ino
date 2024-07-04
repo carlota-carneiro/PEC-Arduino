@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
 // Define states
-enum State {
+enum State { 
   START,
   SYSTEM_AJUSTE_YAW_PITCH,
   YAW_DIRECTION_CHECK,
@@ -18,43 +18,55 @@ State currentState = START;
 #define ANEMOMETER_DIRECTION_PIN A1
 #define YAW_ENCODER_PIN A2
 #define PITCH_ENCODER_PIN A3
-#define MOTOR_YAW_PIN 9
-#define MOTOR_PITCH_PIN 10
+#define IN_YAW_A 3
+#define IN_YAW_B 4
+#define IN_PITCH_A 3
+#define IN_PITCH_B 4
+#define MOTOR_YAW_PIN 2
+#define MOTOR_PITCH_PIN 2
 
 // Motor speed definitions
 #define LOW_SPEED 128  // Assuming 0-255 for analogWrite
 
 float readAnemometerSpeed() {
   // Placeholder: read analog value and convert to wind speed
-  int sensorValue = analogRead(ANEMOMETER_SPEED_PIN);
-  return sensorValue * (5.0 / 1023.0) * 10; // Example conversion
+  //int sensorValue = analogRead(ANEMOMETER_SPEED_PIN);
+  //return sensorValue * (5.0 / 1023.0); // Example conversion
+  return 5;
 }
 
 int readAnemometerDirection() {
   // Placeholder: read analog value and convert to direction
-  int sensorValue = analogRead(ANEMOMETER_DIRECTION_PIN);
-  return sensorValue * (360.0 / 1023.0); // Example conversion
+  //int sensorValue = analogRead(ANEMOMETER_DIRECTION_PIN);
+  //return sensorValue * (360.0 / 1023.0); // Example conversion
+  return 5;
 }
 
 int readYawEncoder() {
   // Placeholder: read analog value and convert to direction
-  int sensorValue = analogRead(YAW_ENCODER_PIN);
-  return sensorValue * (360.0 / 1023.0); // Example conversion
+  //int sensorValue = analogRead(YAW_ENCODER_PIN);
+  //return sensorValue * (360.0 / 1023.0); // Example conversion
+  return 5;
 }
 
 int readPitchEncoder() {
   // Placeholder: read analog value and convert to direction
-  int sensorValue = analogRead(PITCH_ENCODER_PIN);
-  return sensorValue * (360.0 / 1023.0); // Example conversion
+  //int sensorValue = analogRead(PITCH_ENCODER_PIN);
+  //return sensorValue * (360.0 / 1023.0) + 5; // Example conversion
+  return 10;
 }
 
 void setMotorYawSpeed(int speed) {
   // Set motor speed using PWM
+  digitalWrite(IN_YAW_A, HIGH);
+  digitalWrite(IN_YAW_B, LOW);
   analogWrite(MOTOR_YAW_PIN, speed);
 }
 
 void setMotorPitchSpeed(int speed) {
   // Set motor speed using PWM
+  digitalWrite(IN_PITCH_A, HIGH);
+  digitalWrite(IN_PITCH_B, LOW);
   analogWrite(MOTOR_PITCH_PIN, speed);
 }
 
@@ -70,6 +82,10 @@ void setup() {
   pinMode(PITCH_ENCODER_PIN, INPUT);
   pinMode(MOTOR_YAW_PIN, OUTPUT);
   pinMode(MOTOR_PITCH_PIN, OUTPUT);
+  pinMode(IN_YAW_A, OUTPUT);
+  pinMode(IN_YAW_B, OUTPUT);
+  pinMode(IN_PITCH_A, OUTPUT);
+  pinMode(IN_PITCH_B, OUTPUT);
 }
 
 void loop() {
@@ -146,6 +162,6 @@ void loop() {
   }
 
   // Add delay for readability in serial output
-  delay(100);
+  delay(1000);
 }
 
